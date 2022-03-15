@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   generateId,
+  getFlooredLevel,
   getStoredCharacter,
   getStoredQuests,
   storeCharacter,
@@ -12,6 +13,7 @@ import QuestLogDisplay from "./components/QuestLogDisplay";
 import PomodoroDisplay from "./components/PomodoroDisplay";
 import MessagesDisplay from "./components/MessagesDisplay";
 import CalendarDisplay from "./components/CalendarDisplay";
+import RewardOverlay from "./components/RewardOverlay";
 
 const defaultQuests: Quests = [
   { title: "Main Quests", quests: [] },
@@ -93,19 +95,22 @@ const App = () => {
         [quest.proficiency]: character.proficiencies[quest.proficiency] + 1,
       },
     };
-    let leveledUpCharacter = incLevel(newCharacter);
+    let leveledUpCharacter = incLevel(newCharacter, quest.expMultiplier);
     editCharacter(leveledUpCharacter);
     let recreatedQuest = recreateRepeatQuest(questLogTitle, quest);
     removeQuest(questLogTitle, quest, recreatedQuest);
   };
 
-  const incLevel = (characterToLevelUp: Character): Character => {
-    let inc = 1 / (Math.floor(characterToLevelUp.level) + 1);
+  const incLevel = (
+    characterToLevelUp: Character,
+    expMultiplier: number
+  ): Character => {
+    let inc = (1 / getFlooredLevel(characterToLevelUp.level)) * expMultiplier;
     let newCharacter: Character = {
       ...characterToLevelUp,
       level: characterToLevelUp.level + inc,
     };
-    console.log("inc is ", inc);
+
     return newCharacter;
   };
 
@@ -153,6 +158,7 @@ const App = () => {
 
   return (
     <div style={{ alignContent: "stretch", display: "flex", padding: 12 }}>
+      <RewardOverlay character={character} />
       <div style={{ width: 250 }}>
         <CharacterDisplay character={character} editCharacter={editCharacter} />
         <PomodoroDisplay />

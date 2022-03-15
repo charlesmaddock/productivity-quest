@@ -27,6 +27,7 @@ export type Checkboxes = Array<CheckboxObject>;
 
 export interface Quest {
   id: number;
+  expMultiplier: number;
   isBeingCreated: boolean;
   objective: string;
   checkboxes: Checkboxes;

@@ -30,6 +30,10 @@ export const getStoredQuests = () => {
   return null;
 };
 
+export const getFlooredLevel = (level: number) => {
+  return Math.floor(level) + 1;
+};
+
 export const storeQuests = (quests: Array<object>) => {
   localStorage.setItem("quests", JSON.stringify(quests));
 };

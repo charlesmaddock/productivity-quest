@@ -1,0 +1,12 @@
+#goldText {
+  background-image: linear-gradient(
+    to right,
+    #cec741 0,
+    #e7e8a3 50%,
+    #cec741 100%
+  );
+  font-size: 120px;
+  color: transparent;
+  -webkit-background-clip: text;
+  margin: 0;
+}

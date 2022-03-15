@@ -20,6 +20,7 @@ const QuestLogDisplay: React.FC<QuestLogDisplayProps> = (
   const createEmptyQuest = () => {
     let newQuest: Quest = {
       id: generateId(),
+      expMultiplier: 1,
       isBeingCreated: true,
       objective: "",
       checkboxes: [],
@@ -294,6 +295,7 @@ const EditQuestDisplay: React.FC<EditQuestDisplayProps> = ({
   const [repeatDaily, setRepeatDaily] = useState(quest.repeatDaily);
   const [repeatWeekly, setRepeatWeekly] = useState(quest.repeatWeekly);
   const [repeatYearly, setRepeatYearly] = useState(quest.repeatYearly);
+  const [expMultiplier, setExpMultiplier] = useState(quest.expMultiplier);
   const [newQuestProficiency, setNewQuestProficiency] = useState(
     quest.proficiency
   );
@@ -315,6 +317,7 @@ const EditQuestDisplay: React.FC<EditQuestDisplayProps> = ({
       ).getTime() + tzOffsetMs;
     let editedQuest: Quest = {
       id: quest.id,
+      expMultiplier: expMultiplier,
       isBeingCreated: false,
       objective: newQuestObjective,
       checkboxes: checkboxes,
@@ -370,10 +373,25 @@ const EditQuestDisplay: React.FC<EditQuestDisplayProps> = ({
         value={currentCheckboxText}
         onKeyDown={handleEnterCheckbox}
       />
+
       <CheckBoxDisplay
         updateCheckBoxes={updateCheckBoxes}
         checkBoxes={newQuestCheckboxes}
       />
+      <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
+        <p style={{ margin: 0, fontSize: 12, marginRight: 6 }}>
+          Exp multiplier:
+        </p>
+        <input
+          type="number"
+          value={expMultiplier}
+          style={{ width: 40 }}
+          onChange={(e) => {
+            setExpMultiplier(Number(e.target.value));
+          }}
+        />
+      </div>
+
       <input
         placeholder="Expires"
         type="date"

@@ -1,6 +1,7 @@
 import React from "react";
 
 export const lightBrown: string = "#e9d1a3";
+export const brown: string = "#c2952d";
 
 export const panelStyle: React.CSSProperties = {
   background: "#c2952d",

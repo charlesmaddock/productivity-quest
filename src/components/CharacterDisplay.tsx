@@ -3,6 +3,7 @@ import { panelStyle } from "../constants";
 import { Proficiencies, Character } from "../types";
 import profilePic from "../images/profilePic.png";
 import EditableText from "./EditableText";
+import { getFlooredLevel } from "../util";
 
 interface CharacterDisplayProps {
   character: Character;
@@ -15,6 +16,14 @@ const CharacterDisplay: React.FC<CharacterDisplayProps> = (
   const onSetName = (newName: string) => {
     characterDisplayProps.editCharacter({ name: newName });
   };
+  let expWidth: number =
+    (characterDisplayProps.character.level -
+      Math.floor(characterDisplayProps.character.level)) *
+    100;
+
+  if (expWidth >= 99.9) {
+    expWidth = 0;
+  }
 
   return (
     <div style={{ ...panelStyle }}>
@@ -31,11 +40,31 @@ const CharacterDisplay: React.FC<CharacterDisplayProps> = (
             defaultValue={characterDisplayProps.character.name}
           />
           <p style={{ margin: 0 }}>
-            Level: {Math.floor(characterDisplayProps.character.level) + 1}
+            Level: {getFlooredLevel(characterDisplayProps.character.level)}
           </p>
-          <p style={{ margin: 0 }}>
-            Level: {Math.floor(characterDisplayProps.character.level) + 1}
-          </p>
+          <div style={{ margin: 0, display: "flex" }}>
+            <div>Exp:</div>
+            <div
+              style={{
+                background: "lightgrey",
+                borderRadius: 4,
+                width: "100%",
+                overflow: "hidden",
+                marginLeft: 4,
+              }}
+            >
+              <div
+                style={{
+                  height: 20,
+                  background:
+                    "linear-gradient(80deg, rgba(199,206,65,1) 0%, rgba(231,232,163,1) 50%, rgba(199,206,65,1) 100%)",
+                  boxShadow: "-10px 0px 10px rgba(204, 173, 20, 0.7) inset",
+                  width: expWidth + "%",
+                  transition: "all 1s ease",
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
